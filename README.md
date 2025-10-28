@@ -41,18 +41,33 @@ ANTHROPIC_API_KEY=your_actual_api_key_here
 ANTHROPIC_MODEL=claude-3-5-sonnet-20240620
 ```
 
-   **Available Models** (optional - defaults to Claude 3.5 Sonnet):
-   - `claude-3-5-sonnet-20240620` - Best for most tasks (default)
-   - `claude-3-sonnet-20240229` - Reliable general-purpose model
-   - `claude-3-haiku-20240307` - Fast and cost-effective
-   - `claude-3-opus-20240229` - Most powerful (if available in your plan)
+**Available Models** (optional - defaults to Claude 3.5 Sonnet):
+- `claude-3-5-sonnet-20240620` - Best for most tasks (default)
+- `claude-3-sonnet-20240229` - Reliable general-purpose model
+- `claude-3-haiku-20240307` - Fast and cost-effective
+- `claude-3-opus-20240229` - Most powerful (if available in your plan)
+
+**Note**: If you need network IP access (not just localhost), skip to step 6 and use the HTTPS setup.
 
 5. Run the development server:
+
+**Option A: HTTP (localhost only)**
 ```bash
 npm run dev
 ```
+Open [http://localhost:3000](http://localhost:3000) in your browser
 
-6. Open [http://localhost:3000](http://localhost:3000) in your browser
+**Option B: HTTPS (works on network IPs) - Recommended**
+```bash
+# First, generate SSL certificate (one-time setup)
+npm run setup-cert
+
+# Then run the HTTPS server
+npm run dev:https
+```
+Open [https://localhost:3000](https://localhost:3000) in your browser
+
+> **Note**: The browser will show a security warning for the self-signed certificate. Click "Advanced" and "Proceed to localhost" to continue. This is safe for local development.
 
 ## Usage
 
@@ -77,11 +92,25 @@ npm run dev
 - Microsoft Edge (recommended)
 - Safari (with some limitations)
 
-### Tips for Network Access
-If you need to access the app from other devices on your network:
-1. **Use HTTPS**: Set up an HTTPS server (e.g., using ngrok, Cloudflare Tunnel, or a local certificate)
-2. **Access via localhost**: Connect to the machine running the app via remote desktop/SSH
-3. **Use VPN**: Connect devices via VPN and use localhost
+### Network Access with HTTPS
+
+The app now supports HTTPS out of the box for secure network access:
+
+1. **Run the HTTPS server**:
+   ```bash
+   npm run setup-cert  # One-time setup
+   npm run dev:https   # Start HTTPS server
+   ```
+
+2. **Access from any device on your network**:
+   - Open `https://<your-computer-ip>:3000` on any device
+   - The certificate includes your local IP automatically
+   - Accept the browser security warning (safe for development)
+
+3. **For production**, consider:
+   - Using ngrok: `npx ngrok http 3000`
+   - Using Cloudflare Tunnel
+   - Deploying to a hosting service with SSL
 
 For the best experience, use Chrome or Edge.
 
